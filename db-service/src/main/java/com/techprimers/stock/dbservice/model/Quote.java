@@ -1,7 +1,14 @@
 package com.techprimers.stock.dbservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "quotes", catalog = "test")
 public class Quote {
@@ -17,35 +24,8 @@ public class Quote {
     @Column(name = "quote")
     private String quote;
 
-    public Quote() {
-    }
-
     public Quote(String userName, String quote) {
         this.userName = userName;
-        this.quote = quote;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
         this.quote = quote;
     }
 }
