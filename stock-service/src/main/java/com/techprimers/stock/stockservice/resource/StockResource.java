@@ -1,6 +1,5 @@
 package com.techprimers.stock.stockservice.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +19,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/rest/stock")
 public class StockResource {
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    public StockResource(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @GetMapping("/{username}")
     public List<Stock> getStock(@PathVariable("username") final String userName) {
 
-        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange("http://localhost:8300/rest/db/" + userName, HttpMethod.GET,
-                null, new ParameterizedTypeReference<List<String>>() {
+        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
+                "http://localhost:8300/rest/db/" + userName, HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
                 });
-
 
         List<String> quotes = quoteResponse.getBody();
         return quotes
