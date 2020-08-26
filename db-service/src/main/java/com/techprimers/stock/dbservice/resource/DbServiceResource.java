@@ -18,8 +18,16 @@ public class DbServiceResource {
 
     private final QuotesRepository quotesRepository;
 
+    @GetMapping("/")
+    public List<String> getQuotes() {
+        return quotesRepository.findAll()
+                .stream()
+                .map(Quote::getQuoteStr)
+                .collect(Collectors.toList());
+    }
+
     @GetMapping("/{username}")
-    public List<String> getQuotes(@PathVariable("username") final String username) {
+    public List<String> getQuotesByUsername(@PathVariable("username") final String username) {
         return getQuotesByUserName(username);
     }
 

@@ -19,7 +19,7 @@ public class Quote {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "user_name",columnDefinition = "Anonymous")
+    @Column(name = "user_name",columnDefinition = "varchar(50) default 'anonymous'")
     private String userName;
 
     @NotEmpty
