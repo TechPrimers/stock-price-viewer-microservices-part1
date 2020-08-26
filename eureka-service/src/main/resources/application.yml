@@ -9,5 +9,4 @@ eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
-    server:
-      waitTimeInMsWhenSyncEmpty: 0
+    service-url: http://eureka-server:8761/eureka/
