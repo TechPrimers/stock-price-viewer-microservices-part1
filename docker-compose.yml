@@ -1,0 +1,27 @@
+version: '3'
+services:
+  eureka-server:
+    image: eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+  db-service:
+    image: db-service
+    container_name: db-service
+    ports:
+      - "8300:8300"
+    depends_on:
+      - eureka-server
+    links:
+      - eureka-server
+  stock-service:
+    image: stock-service
+    container_name: stock-service
+    ports:
+      - "8301:8301"
+    depends_on:
+      - eureka-server
+      - db-service
+    links:
+      - eureka-server
+      - db-service
