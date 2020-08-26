@@ -3,6 +3,7 @@ package com.techprimers.stock.dbservice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
@@ -18,9 +19,10 @@ public class Quote {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "user_name")
+    @Column(name = "user_name",columnDefinition = "Anonymous")
     private String userName;
 
+    @NotEmpty
     @Column(name = "quote")
     private String quoteStr;
 

@@ -24,7 +24,12 @@ public class DbServiceResource {
     }
 
     @PostMapping("/add")
-    public List<String> add(@RequestBody final Quotes quotes) {
+    public Quote add(@RequestBody final Quote quote) {
+        return quotesRepository.save(quote);
+    }
+
+    @PostMapping("/add-quotes-by-username")
+    public List<String> addQuotes(@RequestBody final Quotes quotes) {
         quotes.getQuoteList()
                 .stream()
                 .map(quote -> new Quote(quotes.getUserName(), quote))
