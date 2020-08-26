@@ -1,5 +1,6 @@
 package com.techprimers.stock.stockservice.resource;
 
+import com.techprimers.stock.stockservice.exception.QuoteNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,9 @@ public class StockResource {
                 });
 
         List<String> quotes = quoteResponse.getBody();
+        if (quotes.isEmpty())
+            throw new QuoteNotFoundException("Username Not Found on Quotes [ " + userName + " ]");
+
         return quotes
                 .stream()
                 .map(this::getStockPrice)
