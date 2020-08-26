@@ -22,10 +22,10 @@ public class Quote {
     private String userName;
 
     @Column(name = "quote")
-    private String quote;
+    private String quoteStr;
 
-    public Quote(String userName, String quote) {
+    public Quote(String userName, String quoteStr) {
         this.userName = userName;
-        this.quote = quote;
+        this.quoteStr = quoteStr;
     }
 }

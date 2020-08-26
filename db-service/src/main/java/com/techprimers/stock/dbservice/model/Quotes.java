@@ -12,6 +12,6 @@ import java.util.List;
 public class Quotes {
 
     private String userName;
-    private List<String> quotes;
+    private List<String> quoteList;
 
 }
