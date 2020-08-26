@@ -6,6 +6,7 @@ import com.techprimers.stock.dbservice.repository.QuotesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,10 +41,15 @@ public class DbServiceResource {
     }
 
     private List<String> getQuotesByUserName(String username) {
-        return quotesRepository.findByUserName(username)
-                .stream()
-                .map(Quote::getQuoteStr)
-                .collect(Collectors.toList());
+        List<String> allUsers = quotesRepository.getAllUsers();
+
+        if (allUsers.contains(username))
+            return quotesRepository.findByUserName(username)
+                    .stream()
+                    .map(Quote::getQuoteStr)
+                    .collect(Collectors.toList());
+        else
+            return new ArrayList<>();
     }
 
 }
