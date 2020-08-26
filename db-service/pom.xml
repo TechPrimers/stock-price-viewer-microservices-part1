@@ -68,7 +68,9 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
+        <finalName>db-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
