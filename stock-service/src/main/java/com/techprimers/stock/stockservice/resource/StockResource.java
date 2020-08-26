@@ -26,8 +26,20 @@ public class StockResource {
         this.restTemplate = restTemplate;
     }
 
+    @GetMapping("/all")
+    public List<String> getStock() {
+
+        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
+                "http://localhost:8300/rest/db/", HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
+                });
+
+        return quoteResponse.getBody();
+    }
+
     @GetMapping("/{username}")
-    public List<Stock> getStock(@PathVariable("username") final String userName) {
+    public List<Stock> getStockByUsername(@PathVariable("username") final String userName) {
 
         ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
                 "http://localhost:8300/rest/db/" + userName, HttpMethod.GET,
