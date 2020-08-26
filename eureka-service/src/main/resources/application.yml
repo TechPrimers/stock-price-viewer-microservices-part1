@@ -3,7 +3,7 @@ spring:
     name: eureka-service
 
 server:
-  port: 8302
+  port: 8761
 
 eureka:
   client:
