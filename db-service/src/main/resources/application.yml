@@ -1,3 +1,10 @@
+spring:
+  application:
+    name: db-service
+
+server:
+  port: 8300
+
 eureka:
   client:
     registerWithEureka: true

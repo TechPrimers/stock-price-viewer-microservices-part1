@@ -42,7 +42,7 @@ public class DbServiceResource {
     private List<String> getQuotesByUserName(String username) {
         return quotesRepository.findByUserName(username)
                 .stream()
-                .map(Quote::getQuote)
+                .map(Quote::getQuoteStr)
                 .collect(Collectors.toList());
     }
 
