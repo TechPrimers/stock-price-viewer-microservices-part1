@@ -14,14 +14,17 @@ services:
       - eureka-server
     links:
       - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+
   stock-service:
     image: stock-service
     container_name: stock-service
     ports:
-      - "8301:8301"
+      - "8305:8305"
     depends_on:
       - eureka-server
-      - db-service
     links:
       - eureka-server
-      - db-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
