@@ -1,30 +1,39 @@
 version: '3'
 services:
   eureka-server:
-    image: eureka-server
+    image: rsakin/eureka-server
+    build:
+      context: ./eureka-service
+      dockerfile: Dockerfile
     container_name: eureka-server
     ports:
       - "8761:8761"
   db-service:
-    image: db-service
+    image: rsakin/db-service
     container_name: db-service
+    build:
+      context: ./db-service
+      dockerfile: Dockerfile
     ports:
       - "8300:8300"
     depends_on:
       - eureka-server
     links:
-      - eureka-server
+      - eureka-server:eureka-server
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
 
   stock-service:
-    image: stock-service
+    image: rsakin/stock-service
     container_name: stock-service
+    build:
+      context: ./stock-service
+      dockerfile: Dockerfile
     ports:
-      - "8305:8305"
+      - "8400:8400"
     depends_on:
       - eureka-server
     links:
-      - eureka-server
+      - eureka-server:eureka-server
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
