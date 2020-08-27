@@ -17,16 +17,17 @@ import java.util.List;
 public class StockResource {
 
     private final RestTemplate restTemplate;
-
     public StockResource(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
+
+    private static final String REST_DB_SERVICE_BASE_URL = "http://db-service:8300/rest/db/";
 
     @GetMapping("/all")
     public List<String> getStock() {
 
         ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
-                "http://localhost:8300/rest/db/", HttpMethod.GET,
+                REST_DB_SERVICE_BASE_URL, HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<String>>() {
                 });
@@ -38,7 +39,7 @@ public class StockResource {
     public List<String> getStockByUsername(@PathVariable("username") final String userName) {
 
         ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
-                "http://localhost:8300/rest/db/" + userName, HttpMethod.GET,
+                REST_DB_SERVICE_BASE_URL + userName, HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<String>>() {
                 });
