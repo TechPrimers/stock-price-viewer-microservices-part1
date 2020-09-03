@@ -1,6 +1,6 @@
 package com.techprimers.stock.stockservice.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.techprimers.stock.stockservice.exception.QuoteNotFoundException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -9,41 +9,46 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/rest/stock")
 public class StockResource {
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    public StockResource(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
-    @GetMapping("/{username}")
-    public List<Stock> getStock(@PathVariable("username") final String userName) {
+    private static final String REST_DB_SERVICE_BASE_URL = "http://db-service:8300/rest/db/";
 
-        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange("http://localhost:8300/rest/db/" + userName, HttpMethod.GET,
-                null, new ParameterizedTypeReference<List<String>>() {
+    @GetMapping("/all")
+    public List<String> getStock() {
+
+        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
+                REST_DB_SERVICE_BASE_URL, HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
                 });
 
+        return quoteResponse.getBody();
+    }
+
+    @GetMapping("/{username}")
+    public List<String> getStockByUsername(@PathVariable("username") final String userName) {
+
+        ResponseEntity<List<String>> quoteResponse = restTemplate.exchange(
+                REST_DB_SERVICE_BASE_URL + userName, HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<String>>() {
+                });
 
         List<String> quotes = quoteResponse.getBody();
-        return quotes
-                .stream()
-                .map(this::getStockPrice)
-                .collect(Collectors.toList());
+        if (quotes.isEmpty())
+            throw new QuoteNotFoundException("Username Not Found on Quotes [ " + userName + " ]");
+
+        return quotes;
     }
 
-    private Stock getStockPrice(String quote) {
-        try {
-            return YahooFinance.get(quote);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new Stock(quote);
-        }
-    }
 }
